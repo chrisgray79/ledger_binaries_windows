@@ -1,0 +1,2570 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- 
+Copyright C 2013, Craig Earls.  All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+
+
+Redistributions of source code must retain the above copyright notice,
+this list of conditions and the following disclaimer.
+
+
+Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the distribution.
+
+
+Neither the name of New Artisans LLC nor the names of its contributors
+may be used to endorse or promote products derived from this software
+without specific prior written permission.
+
+
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+ -->
+<!-- Created on December 25, 2014 by texi2html 1.82
+texi2html was written by: 
+            Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people.
+Send bugs and suggestions to <texi2html-bug@nongnu.org>
+-->
+<head>
+<title>Ledger: Command-Line Accounting</title>
+
+<meta name="description" content="Ledger: Command-Line Accounting">
+<meta name="keywords" content="Ledger: Command-Line Accounting">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.82">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.roman {font-family:serif; font-weight:normal;}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Top"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Overview"></a>
+<h1 class="settitle">Overview</h1>
+
+<p>Ledger is a command line accounting tool that provides double-entry
+accounting based on a text journal.  It provides no bells or whistles,
+and returns the user to the days before user interfaces were even
+a 1twinkling in their father&rsquo;s CRT.
+</p>
+<p>Ledger-mode assists you in maintaining input files for Ledger, running
+reports and much more...
+</p>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#Introduction-to-Ledger_002dmode">1. Introduction to Ledger-mode</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#The-Ledger-Buffer">2. The Ledger Buffer</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#The-Reconcile-Buffer">3. The Reconcile Buffer</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#The-Report-Buffer">4. The Report Buffer</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Scheduling-Transactions">5. Scheduling Transactions</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Customizing-Ledger_002dmode">6. Customizing Ledger-mode</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Generating-Ledger-Regression-Tests">7. Generating Ledger Regression Tests</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Embedding-Example-results-in-Ledger-Documentation">8. Embedding Example results in Ledger Documentation</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Hacking-Ledger_002dmode">9. Hacking Ledger-mode</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Concept-Index">Concept Index</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Command-_0026-Variable-Index">Command &amp; Variable Index</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Keystroke-Index">Keystroke Index</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr size="1">
+<a name="Introduction-to-Ledger_002dmode"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Top" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Quick-Installation" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Ledger-Buffer" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Introduction-to-Ledger_002dmode-1"></a>
+<h1 class="chapter">1. Introduction to Ledger-mode</h1>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#Quick-Installation">1.1 Quick Installation</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Menus">1.2 Menus</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Quick-Demo">1.3 Quick Demo</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr size="6">
+<a name="Quick-Installation"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Introduction-to-Ledger_002dmode" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Menus" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-to-Ledger_002dmode" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Introduction-to-Ledger_002dmode" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Ledger-Buffer" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Quick-Installation-1"></a>
+<h2 class="section">1.1 Quick Installation</h2>
+<a name="index-installation"></a>
+
+<p>The Emacs lisp source for Ledger-mode is included with the source
+distribution of Ledger.  It is entirely included in the &lsquo;<tt>lisp</tt>&rsquo;
+subdirectory. To use Ledger-mode, include the following in your Emacs
+initialization file (&lsquo;<tt>~/.emacs</tt>&rsquo;, &lsquo;<tt>~/.emacs.d/init.el</tt>&rsquo;, or
+&lsquo;<tt>~/.Aquamacs/Preferences.el</tt>&rsquo;).
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="lisp">(add-to-list 'load-path
+             (expand-file-name &quot;/path/to/ledger/source/lisp/&quot;))
+(load &quot;ledger-mode&quot;)
+(add-to-list 'auto-mode-alist '(&quot;\\.ledger$&quot; . ledger-mode))
+</pre></td></tr></table>
+
+<p>This sets up Emacs to automatically recognize files that end with
+&lsquo;<tt>.ledger</tt>&rsquo; and start Ledger-mode.  Nothing else should be required
+as long as the ledger command line utility is properly installed.
+</p>
+<hr size="6">
+<a name="Menus"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Quick-Installation" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Quick-Demo" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-to-Ledger_002dmode" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Introduction-to-Ledger_002dmode" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Ledger-Buffer" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Menus-1"></a>
+<h2 class="section">1.2 Menus</h2>
+<a name="index-menu"></a>
+
+<p>The vast majority of Ledger-mode functionality is available from the
+Emacs menu system.  The keystrokes are shown in the menu to help you
+learn the faster keyboard methods.
+</p>
+<hr size="6">
+<a name="Quick-Demo"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Menus" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Quick-Add" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-to-Ledger_002dmode" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Introduction-to-Ledger_002dmode" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Ledger-Buffer" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Quick-Demo-1"></a>
+<h2 class="section">1.3 Quick Demo</h2>
+<a name="index-demo"></a>
+
+<p>Load the demo file &lsquo;<tt>demo.ledger</tt>&rsquo; from the Ledger source
+&lsquo;<tt>test/input</tt>&rsquo; directory.  The ledger will be loaded and font
+highlighted.  At this point you could manually edit transactions and run
+Ledger from a convenient command line.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#Quick-Add">1.3.1 Quick Add</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Reconciliation">1.3.2 Reconciliation</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Reports">1.3.3 Reports</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Narrowing">1.3.4 Narrowing</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr size="6">
+<a name="Quick-Add"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Quick-Demo" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Reconciliation" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-to-Ledger_002dmode" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Quick-Demo" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Ledger-Buffer" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Quick-Add-1"></a>
+<h3 class="subsection">1.3.1 Quick Add</h3>
+<a name="index-C_002dc-TAB"></a>
+<a name="index-C_002dc-C_002da"></a>
+
+<p>As simple as the Ledger transaction format is, it can still be daunting
+to add many transactions manually.  Ledger provides two way to add
+transactions with minimal typing. Both are based on the idea that most
+transactions are repetitions of earlier transactions.
+</p>
+<p>In the &lsquo;<tt>demo.ledger</tt>&rsquo; buffer enter a date using the correct
+format. Then type the first few characters of another payee in the
+&lsquo;<tt>demo.ledger</tt>&rsquo; buffer.  Type <kbd>C-c TAB</kbd>.  Ledger-mode will
+search for a Payee that has the same beginning and copy the rest of the
+transaction to you new entry.
+</p>
+<p>Additionally you can use the ledger <code>xact</code> command, by either
+typing <kbd>C-c C-a</kbd> or using &lsquo;<samp>Add Transaction</samp>&rsquo; menu entry. Then
+typing a close match to the payee. Ledger-mode will call <code>ledger
+xact</code> with the data you enter and place the transaction in the proper
+chronological place in the ledger.
+</p>
+<hr size="6">
+<a name="Reconciliation"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Quick-Add" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Reports" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-to-Ledger_002dmode" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Quick-Demo" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Ledger-Buffer" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Reconciliation-1"></a>
+<h3 class="subsection">1.3.2 Reconciliation</h3>
+<a name="index-C_002dc-C_002dr"></a>
+<a name="index-SPC"></a>
+<a name="index-C_002dc-C_002dc"></a>
+<a name="index-q"></a>
+
+<p>The biggest task of maintaining a ledger is ensuring that it matches the
+outside world.  This process is called reconciliation (see section <a href="#Basics-of-Reconciliation">Basics of Reconciliation</a>) and can be quite onerous.  Ledger-mode attempts to make
+it as painless as possible.
+</p>
+<p>In the &lsquo;<tt>demo.ledger</tt>&rsquo; buffer type <kbd>C-c C-r</kbd>.  Emacs will prompt
+for an account to reconcile in the Minibuffer.  Enter &lsquo;<samp>Checking</samp>&rsquo;.
+Emacs will then prompt for a target value.  The target value is the
+amount you want the cleared transactions in the buffer to total.
+Normally this would be the ending value from your bank statement, or the
+latest value in your on-line transaction summary.  Enter &lsquo;<samp>1710</samp>&rsquo;.
+Note that Ledger-mode assumes your are using &lsquo;<samp>$</samp>&rsquo; (USD) as your
+default commodity, this can be easily changed in the customization
+variables. See section <a href="#Ledger_002dmode-Customization">Ledger-mode Customization</a>.
+</p>
+<p>You now see a list of uncleared transactions in a buffer below the
+&lsquo;<tt>demo.ledger</tt>&rsquo; buffer.  Touching the <kbd>SPC</kbd> bar will mark
+a transaction as pending and display the current cleared (and pending)
+balance, along with the difference remaining to meet your target. Clear
+the first three transactions, and you will see the difference to target
+reach &lsquo;<samp>$0</samp>&rsquo;.  End the reconciliation by typing <kbd>C-c C-c</kbd>.  This
+saves the &lsquo;<tt>demo.ledger</tt>&rsquo; buffer and marks the transactions and
+finally cleared.  Type <kbd>q</kbd> to close out the reconciliation buffer.
+</p>
+<hr size="6">
+<a name="Reports"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Reconciliation" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Narrowing" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-to-Ledger_002dmode" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Quick-Demo" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Ledger-Buffer" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Reports-1"></a>
+<h3 class="subsection">1.3.3 Reports</h3>
+<a name="index-C_002dc-C_002do-C_002dr"></a>
+<a name="index-C_002dc-C_002dc-1"></a>
+
+<p>The real power of Ledger is in it reporting capabilities.  Reports can
+be run and displayed in a separate Emacs buffer.  In the
+&lsquo;<tt>demo.ledger</tt>&rsquo; buffer, type <kbd>C-c C-o C-r</kbd>.  In the Minibuffer
+Emacs will prompt for a report name.  There are a few built-in reports,
+and you can add any report you need See section <a href="#Adding-and-Editing-Reports">Adding and Editing Reports</a>.
+</p>
+<p>In the Minibuffer type &lsquo;<samp>account</samp>&rsquo;.  When prompted for an account
+type &lsquo;<samp>checking</samp>&rsquo;.  In another buffer you will see a Ledger register
+report. You can move around the buffer, with the point on a transaction,
+type <kbd>C-c C-c</kbd>.  Ledger-mode will take you directly to that
+transaction in the &lsquo;<tt>demo.ledger</tt>&rsquo; buffer.
+</p>
+<p>Another built-in report is the balance report.  In the
+&lsquo;<tt>demo.ledger</tt>&rsquo; buffer, type <kbd>C-c C-o C-r</kbd>.  When prompted for
+a report to run, type &lsquo;<samp>bal</samp>&rsquo;, and a balance report of all accounts
+will be shown.
+</p>
+<hr size="6">
+<a name="Narrowing"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Reports" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Ledger-Buffer" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-to-Ledger_002dmode" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Quick-Demo" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Ledger-Buffer" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Narrowing-1"></a>
+<h3 class="subsection">1.3.4 Narrowing</h3>
+<a name="index-C_002dc-C_002df"></a>
+
+<p>A ledger file can get very large.  It can be helpful to collapse the
+buffer to display only the transactions you are interested in.
+Ledger-mode copies the <code>occur</code> mode functionality.  Typing
+<kbd>C-c C-f</kbd> and entering any regex in the Minibuffer will show only
+transactions that match the regex.  The regex can be on any field, or
+amount.
+</p>
+<hr size="6">
+<a name="The-Ledger-Buffer"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Narrowing" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Adding-Transactions" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-to-Ledger_002dmode" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Reconcile-Buffer" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="The-Ledger-Buffer-1"></a>
+<h1 class="chapter">2. The Ledger Buffer</h1>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#Adding-Transactions">2.1 Adding Transactions</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Copying-Transactions">2.2 Copying Transactions</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Editing-Amounts">2.3 Editing Amounts</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Marking-Transactions">2.4 Marking Transactions</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Deleting-Transactions">2.5 Deleting Transactions</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Sorting-Transactions">2.6 Sorting Transactions</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Narrowing-Transactions">2.7 Narrowing Transactions</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+
+<hr size="6">
+<a name="Adding-Transactions"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#The-Ledger-Buffer" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Quick-Balance-Display" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Ledger-Buffer" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Ledger-Buffer" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Reconcile-Buffer" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Adding-Transactions-1"></a>
+<h2 class="section">2.1 Adding Transactions</h2>
+<a name="index-ledger_002dpost_002dauto_002dadjust_002damounts"></a>
+<a name="index-ledger_002dpost_002damount_002dalignment_002dcolumn"></a>
+<a name="index-TAB"></a>
+<a name="index-transaction_002c-adding"></a>
+
+<p>Beyond the two ways of quickly adding transactions (see section <a href="#Quick-Add">Quick Add</a>)
+Ledger-mode assists you by providing robust <kbd>TAB</kbd> completion for
+payees and accounts.  Ledger-mode will scan the existing buffer for
+payees and accounts. Included files are not currently included in the
+completion scan. Repeatedly hitting <kbd>TAB</kbd> will cycle through the
+possible completions.
+</p>
+<p>Ledger-mode can also help you keep your amounts in alignment.  Setting
+&lsquo;<samp>ledger-post-auto-adjust-amounts</samp>&rsquo; to true tells Ledger-mode to
+automatically place any amounts such that their last digit is aligned to
+the column specified by &lsquo;<samp>ledger-post-amount-alignment-column</samp>&rsquo;,
+which defaults to &lsquo;<samp>52</samp>&rsquo;. See section <a href="#Ledger-Post-Customization-Group">Ledger Post Customization Group</a>.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#Quick-Balance-Display">2.1.1 Quick Balance Display</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr size="6">
+<a name="Quick-Balance-Display"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Adding-Transactions" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Copying-Transactions" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Ledger-Buffer" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Adding-Transactions" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Reconcile-Buffer" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Quick-Balance-Display-1"></a>
+<h3 class="subsection">2.1.1 Quick Balance Display</h3>
+<a name="index-C_002dc-C_002dp"></a>
+<a name="index-balance"></a>
+
+<p>You will often want to quickly check the balance of an account.  The
+easiest way it to position point on the account you are interested in,
+and type <kbd>C-c C-p</kbd>.  The Minibuffer will ask you to verify the name
+of the account you want, if it is already correct hit <kbd>RET</kbd>, then
+the balance of the account will be displayed in the Minibuffer.
+</p>
+<hr size="6">
+<a name="Copying-Transactions"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Quick-Balance-Display" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Editing-Amounts" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Ledger-Buffer" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Ledger-Buffer" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Reconcile-Buffer" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Copying-Transactions-1"></a>
+<h2 class="section">2.2 Copying Transactions</h2>
+<a name="index-C_002dc-C_002dk"></a>
+<a name="index-transaction_002c-copying"></a>
+
+<p>An easy way to copy a transaction is to type <kbd>C-c C-k</kbd> or menu entry
+&lsquo;<samp>Copy Trans at Point</samp>&rsquo;. You will be prompted the new date for the
+copied transaction, and after having confirmed with <kbd>RET</kbd>, new
+transaction will be inserted at <em>date</em> position in buffer.
+</p>
+<hr size="6">
+<a name="Editing-Amounts"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Copying-Transactions" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Marking-Transactions" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Ledger-Buffer" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Ledger-Buffer" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Reconcile-Buffer" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Editing-Amounts-1"></a>
+<h2 class="section">2.3 Editing Amounts</h2>
+<a name="index-C_002dc-C_002db"></a>
+<a name="index-y"></a>
+<a name="index-Calc"></a>
+<a name="index-GNU-Emacs-Calculator"></a>
+<a name="index-transaction_002c-editing-amounts"></a>
+
+<p>GNU Emacs Calculator, aka &lsquo;<samp>Calc</samp>&rsquo;, is a very powerful Reverse Polish
+Notation calculator built into all recent version of Emacs.  Ledger-mode
+makes it easy to calculate values for amount by integrating
+<code>Calc</code>. With the point anywhere in the same line as a posting,
+typing <kbd>C-c C-b</kbd> will bring up the &lsquo;<tt>Calc</tt>&rsquo; buffer, and push the
+current amount for the posting onto the top of the <code>Calc</code> stack.
+Perform any calculations you need to arrive at the final value, then
+type <kbd>y</kbd> to yank the value at the top of stack back into the ledger
+buffer.  Note: <code>Calc</code> does not directly support commas as
+decimal separators.  Ledger-mode will translate values from
+decimal-comma format to decimal-period format for use in <code>Calc</code>,
+but it cannot intercept the value being yanked form the <code>Calc</code>
+stack, so decimal-comma users will have to manually replace the period
+with a comma.
+</p>
+<hr size="6">
+<a name="Marking-Transactions"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Editing-Amounts" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Deleting-Transactions" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Ledger-Buffer" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Ledger-Buffer" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Reconcile-Buffer" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Marking-Transactions-1"></a>
+<h2 class="section">2.4 Marking Transactions</h2>
+<a name="index-transaction_002c-marking"></a>
+<a name="index-uncleared"></a>
+<a name="index-pending"></a>
+<a name="index-cleared"></a>
+
+<p>Ledger considers transaction or posting to be in one of three states:
+uncleared, cleared, and pending.  For calculation Ledger ignores these
+states unless specifically instructed to use them.  Ledger-mode assigns
+some additional meaning to the states:
+</p>
+<ul>
+<li> Uncleared.
+No state.  This is equivalent to sticking a check in the mail.  It has
+been obligated, but not been cashed by the recipient.  It could also
+apply to credit/debit card transactions that have not been cleared into
+your account balance.  You bank may call these transactions &ldquo;pending&rdquo;,
+but Ledger-mode uses a slightly different meaning.
+
+</li><li> Pending.
+Ledger-mode&rsquo;s reconciliation function see pending transactions as an
+intermediate step in reconciling an account.  When doing
+a reconciliation (see section <a href="#Reconciliation">Reconciliation</a>), marking a transaction as
+pending means that you have seen the transaction finally recorded by the
+recipient, but you have not completely reconciled the account.
+
+</li><li> Cleared.
+The transaction has been completely recognized by all parties to the
+transaction.
+
+</li></ul>
+
+<a name="index-C_002dc-C_002de"></a>
+<a name="index-C_002dc-C_002dc-2"></a>
+
+<p>Clearing complete transactions is done by typing <kbd>C-c C-e</kbd> with
+point in a transaction.  This places an asterisk &lsquo;<samp>*</samp>&rsquo; after the
+date.  Clearing individual postings is done by typing <kbd>C-c C-c</kbd>
+while in a posting. This places an asterisk prior to the posting.
+</p>
+<hr size="6">
+<a name="Deleting-Transactions"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Marking-Transactions" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Sorting-Transactions" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Ledger-Buffer" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Ledger-Buffer" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Reconcile-Buffer" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Deleting-Transactions-1"></a>
+<h2 class="section">2.5 Deleting Transactions</h2>
+<a name="index-C_002dc-C_002dd"></a>
+<a name="index-transaction_002c-deleting"></a>
+
+<p>Along with normal buffer editing methods to delete text, Ledger-mode
+provides an easy way to delete the transaction under point: <kbd>C-c
+C-d</kbd>.  The advantage to using this method is that the complete
+transaction operation is in the undo buffer.
+</p>
+<hr size="6">
+<a name="Sorting-Transactions"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Deleting-Transactions" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Narrowing-Transactions" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Ledger-Buffer" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Ledger-Buffer" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Reconcile-Buffer" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Sorting-Transactions-1"></a>
+<h2 class="section">2.6 Sorting Transactions</h2>
+<a name="index-C_002dc-C_002ds"></a>
+<a name="index-transaction_002c-sorting"></a>
+
+<p>As you operating on the Ledger files, they may become disorganized.  For
+the most part, Ledger doesn&rsquo;t care, but our human brains prefer a bit of
+order.  Sorting the transactions in a buffer into chronological order
+can help bring order to chaos.  Either using &lsquo;<samp>Sort Region</samp>&rsquo; menu
+entry or typing <kbd>C-c C-s</kbd> will sort all of the transactions in
+a region by date.  Ledger-mode isn&rsquo;t particularly smart about handling
+dates and it simply sorts the transactions using the string at the
+beginning of the transaction.  So, you should use the preferred ISO 8601
+standard date format &lsquo;<samp>YYYY/MM/DD</samp>&rsquo; which easily sorts.
+</p>
+<p>Note, there is a menu entry &lsquo;<samp>Sort Buffer</samp>&rsquo; to sort the entire
+buffer.  Special transactions like automated transaction, will be moved
+in the sorting process and may not function correctly afterwards.  For
+this reason there is no key sequence.
+</p>
+<p>You can limit the allowed sort region by using embedded Ledger-mode
+markup within your ledger.  For example:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">&lt;&lt;&lt; information to not sort &gt;&gt;&gt;
+
+; Ledger-mode: Start sort
+
+&lt;&lt;&lt; transactions to sort &gt;&gt;&gt;
+
+; Ledger-mode: End sort
+
+&lt;&lt;&lt; information to not sort &gt;&gt;&gt;
+</pre></td></tr></table>
+
+<p>You can use menu entries &lsquo;<samp>Mark Sort Beginning</samp>&rsquo; to insert start and
+&lsquo;<samp>Mark Sort End</samp>&rsquo; to insert end markers.  These functions will
+automatically delete old markers and put new new marker at point.
+</p>
+<hr size="6">
+<a name="Narrowing-Transactions"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Sorting-Transactions" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Reconcile-Buffer" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Ledger-Buffer" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Ledger-Buffer" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Reconcile-Buffer" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Narrowing-Transactions-1"></a>
+<h2 class="section">2.7 Narrowing Transactions</h2>
+<a name="index-C_002dc-C_002df-1"></a>
+<a name="index-transaction_002c-narrowing"></a>
+<a name="index-transaction_002c-display-filtering"></a>
+
+<p>Often you will want to run Ledger register reports just to look at
+a specific set of transactions.  If you don&rsquo;t need the running total
+calculation handled by Ledger, Ledger-mode provides a rapid way of
+narrowing what is displayed in the buffer in a way that is simpler than
+the Ledger register command.
+</p>
+<p>Based on the Emacs Occur mode by Alexey Veretennikov, Ledger-occur hides
+all transactions that do <em>not</em> meet a specific regular expression.
+The regular expression can match on any part of the transaction.  If you
+want to find all transactions whose amount ends in &lsquo;<samp>.37</samp>&rsquo;, you can
+do that (I don&rsquo;t know why, but hey, whatever ever floats you aerostat).
+</p>
+<p>Using <kbd>C-c C-f</kbd> or the &lsquo;<samp>Narrow to Regex</samp>&rsquo; menu entry, enter
+a regular expression in the Minibuffer.  Ledger-mode will hide all other
+transactions.  For details of the regular expression syntax, see
+<a href="emacs.html#Regexps">Syntax of Regular Expressions: (emacs)Regexps</a> or
+<a href="elisp.html#Regular-Expressions">Regular Expressions: (elisp)Regular Expressions</a>.  A few examples
+using the &lsquo;<tt>demo.ledger</tt>&rsquo; are given here:
+</p>
+<dl compact="compact">
+<dt> &lsquo;<samp>Groceries</samp>&rsquo;</dt>
+<dd><p>Show only transactions that have a posting to the &lsquo;<samp>Groceries</samp>&rsquo;
+account.
+</p>
+</dd>
+<dt> &lsquo;<samp>^2011/01</samp>&rsquo;</dt>
+<dd><p>Show only transactions occurring in January of 2011.
+</p>
+</dd>
+<dt> &lsquo;<samp>^2011/.*/25</samp>&rsquo;</dt>
+<dd><p>Show only transactions occurring on the 25th of the month in 2011.
+</p>
+</dd>
+<dt> &lsquo;<samp>auto</samp>&rsquo;</dt>
+<dd><p>Show only transactions with payees or accounts or comments containing.
+&lsquo;<samp>auto</samp>&rsquo;
+</p>
+</dd>
+<dt> &lsquo;<samp>harley$</samp>&rsquo;</dt>
+<dd><p>Show only transactions with any line ending with &lsquo;<samp>harley</samp>&rsquo;.
+</p>
+</dd>
+</dl>
+
+<p>To show back all transactions simply invoke &lsquo;<samp>Narrow to Regex</samp>&rsquo; or
+<kbd>C-c C-f</kbd> again.
+</p>
+<hr size="6">
+<a name="The-Reconcile-Buffer"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Narrowing-Transactions" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Basics-of-Reconciliation" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Ledger-Buffer" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Report-Buffer" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="The-Reconcile-Buffer-1"></a>
+<h1 class="chapter">3. The Reconcile Buffer</h1>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#Basics-of-Reconciliation">3.1 Basics of Reconciliation</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Starting-a-Reconciliation">3.2 Starting a Reconciliation</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Mark-Transactions-Pending">3.3 Mark Transactions Pending</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Edit-Transactions-During-Reconciliation">3.4 Edit Transactions during Reconciliation</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Finalize-Reconciliation">3.5 Finalize Reconciliation</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Adding-and-Deleting-Transactions-during-Reconciliation">3.6 Adding and Deleting Transactions during Reconciliation</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Changing-Reconciliation-Account">3.7 Changing Reconciliation Account</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Changing-Reconciliation-Target">3.8 Changing Reconciliation Target</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr size="6">
+<a name="Basics-of-Reconciliation"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#The-Reconcile-Buffer" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Starting-a-Reconciliation" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Reconcile-Buffer" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Reconcile-Buffer" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Report-Buffer" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Basics-of-Reconciliation-1"></a>
+<h2 class="section">3.1 Basics of Reconciliation</h2>
+<a name="index-reconciliation_002c-basics"></a>
+
+<p>Even in this relatively modern era, financial transactions do not happen
+instantaneously, unless you are paying cash.  When you swipe your debit
+card the money may take several days to actually come out of your
+account, or a check may take several days to <em>clear</em>.  That is the
+root of the difference between <em>obligating</em> funds and
+<em>expending</em> funds.  Obligation says you have agreed to pay it, the
+expenditure doesn&rsquo;t happen until the money actually leaves your
+account. Or in the case of receiving payment, you have an account
+receivable until the money has actually made it to you.
+</p>
+<p>After an account has been reconciled you have verified that all the
+transactions in that account have been correctly recorded and all
+parties agree.
+</p>
+<hr size="6">
+<a name="Starting-a-Reconciliation"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Basics-of-Reconciliation" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Mark-Transactions-Pending" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Reconcile-Buffer" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Reconcile-Buffer" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Report-Buffer" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Starting-a-Reconciliation-1"></a>
+<h2 class="section">3.2 Starting a Reconciliation</h2>
+<a name="index-ledger_002dreconcile_002ddefault_002dcommodity"></a>
+<a name="index-C_002dc-C_002dr-1"></a>
+<a name="index-reconciliation_002c-starting"></a>
+
+<p>To start reconciling an account you must have a target, both the
+transactions that you know about and the transactions the bank knows
+about.  You can get this from a monthly statement, or from checking your
+on-line transaction history.  It also helps immensely to know the final
+cleared balance you are aiming for.
+</p>
+<p>Use menu &lsquo;<samp>Reconcile Account</samp>&rsquo; or <kbd>C-c C-r</kbd> and enter the account
+you wish to reconcile in the Minibuffer.  Ledger-mode is not particular
+about what you enter for the account.  You can leave it blank and
+&lsquo;<tt>*Reconcile*</tt>&rsquo; buffer will show you <em>all</em> uncleared
+transactions.  After you enter the account enter the target amount.
+Ledger expects you to enter an amount with a commodity.  It assumes
+initially that you are using &lsquo;<samp>$</samp>&rsquo; (USD) as your default commodity.
+If you are working in a different currency you can change the default in
+variable &lsquo;<samp>ledger-reconcile-default-commodity</samp>&rsquo; to whatever you
+need.  If you work in multiple commodities simply enter the commoditized
+amount (for example &lsquo;<samp>340 VSDX</samp>&rsquo;, for 340 shares of VSDX).
+</p>
+<p>Ledger-mode reconcile cannot currently reconcile accounts that have
+multiple commodities, such as brokerage accounts. You may use
+reconciliation mode to clear transactions, but balance calculations will
+not display the complete list of commodities.
+</p>
+<hr size="6">
+<a name="Mark-Transactions-Pending"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Starting-a-Reconciliation" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Edit-Transactions-During-Reconciliation" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Reconcile-Buffer" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Reconcile-Buffer" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Report-Buffer" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Mark-Transactions-Pending-1"></a>
+<h2 class="section">3.3 Mark Transactions Pending</h2>
+<a name="index-SPC-1"></a>
+<a name="index-reconciliation_002c-transaction-marking"></a>
+
+<p>The &lsquo;<tt>*Reconcile*</tt>&rsquo; buffer will show all the uncleared transactions
+that meet the criteria set in the regex.  By default uncleared
+transactions are shown in red.  When you have verified that
+a transaction has been correctly and completely recorded by the opposing
+party, mark the transaction as pending using the <kbd>SPC</kbd> bar.
+Continue this process until you agree with the opposing party and the
+difference from your target is zero.
+</p>
+<hr size="6">
+<a name="Edit-Transactions-During-Reconciliation"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Mark-Transactions-Pending" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Finalize-Reconciliation" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Reconcile-Buffer" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Reconcile-Buffer" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Report-Buffer" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Edit-Transactions-during-Reconciliation"></a>
+<h2 class="section">3.4 Edit Transactions during Reconciliation</h2>
+<a name="index-RET"></a>
+<a name="index-C_002dc-C_002dc-3"></a>
+<a name="index-reconciliation_002c-transaction-editing"></a>
+
+<p>If you find errors during reconciliation.  You can visit the transaction
+under point in the &lsquo;<tt>*Reconcile*</tt>&rsquo; buffer by hitting the <kbd>RET</kbd>
+key.  This will take you to the transaction in the Ledger buffer.  When
+you have finished editing the transaction saving the buffer will
+automatically return you to the &lsquo;<tt>*Reconcile*</tt>&rsquo; buffer and you can
+mark the transaction if appropriate.
+</p>
+<hr size="6">
+<a name="Finalize-Reconciliation"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Edit-Transactions-During-Reconciliation" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Adding-and-Deleting-Transactions-during-Reconciliation" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Reconcile-Buffer" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Reconcile-Buffer" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Report-Buffer" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Finalize-Reconciliation-1"></a>
+<h2 class="section">3.5 Finalize Reconciliation</h2>
+<a name="index-reconciliation_002c-finalizing"></a>
+
+<p>Once you have marked all transactions as pending and the cleared balance
+is correct.  Finish the reconciliation by typing <kbd>C-c C-c</kbd>.  This
+marks all pending transaction as cleared and saves the ledger buffer.
+</p>
+<hr size="6">
+<a name="Adding-and-Deleting-Transactions-during-Reconciliation"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Finalize-Reconciliation" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Changing-Reconciliation-Account" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Reconcile-Buffer" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Reconcile-Buffer" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Report-Buffer" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Adding-and-Deleting-Transactions-during-Reconciliation-1"></a>
+<h2 class="section">3.6 Adding and Deleting Transactions during Reconciliation</h2>
+<a name="index-a"></a>
+<a name="index-d"></a>
+<a name="index-reconciliation_002c-transaction-adding-and-deleting"></a>
+
+<p>While reconciling, you may find new transactions that need to be entered
+into your ledger.  Simply type <kbd>a</kbd> to bring up the quick add for the
+ledger buffer.
+</p>
+<p>Typing <kbd>d</kbd> will delete the transaction under point in the
+&lsquo;<tt>*Reconcile*</tt>&rsquo; buffer from the ledger buffer.
+</p>
+<hr size="6">
+<a name="Changing-Reconciliation-Account"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Adding-and-Deleting-Transactions-during-Reconciliation" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Changing-Reconciliation-Target" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Reconcile-Buffer" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Reconcile-Buffer" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Report-Buffer" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Changing-Reconciliation-Account-1"></a>
+<h2 class="section">3.7 Changing Reconciliation Account</h2>
+<a name="index-g"></a>
+<a name="index-reconciliation_002c-account-changing"></a>
+
+<p>You can conveniently switch the account being reconciled by typing
+<kbd>g</kbd>, and entering a new account to reconcile.  This simply restarts
+the reconcile process. Any transactions that were marked &lsquo;pending&rsquo; in
+the ledger buffer are left in that state when the account is switched.
+</p>
+<hr size="6">
+<a name="Changing-Reconciliation-Target"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Changing-Reconciliation-Account" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Report-Buffer" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Reconcile-Buffer" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Reconcile-Buffer" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Report-Buffer" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Changing-Reconciliation-Target-1"></a>
+<h2 class="section">3.8 Changing Reconciliation Target</h2>
+<a name="index-t"></a>
+<a name="index-reconciliation_002c-target-changing"></a>
+
+<p>If for some reason during reconciliation your target amount changes,
+type <kbd>t</kbd> and enter the new target value.
+</p>
+<hr size="6">
+<a name="The-Report-Buffer"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Changing-Reconciliation-Target" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Running-Basic-Reports" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Reconcile-Buffer" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Scheduling-Transactions" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="The-Report-Buffer-1"></a>
+<h1 class="chapter">4. The Report Buffer</h1>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#Running-Basic-Reports">4.1 Running Reports</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Adding-and-Editing-Reports">4.2 Adding and Editing Reports</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Reversing-Report-Order">4.3 Reversing Report Order</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+
+<hr size="6">
+<a name="Running-Basic-Reports"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#The-Report-Buffer" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Adding-and-Editing-Reports" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Report-Buffer" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Report-Buffer" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Scheduling-Transactions" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Running-Reports"></a>
+<h2 class="section">4.1 Running Reports</h2>
+<a name="index-C_002dc-C_002do-C_002dr-1"></a>
+<a name="index-report_002c-running"></a>
+
+<p>The real power behind Ledger is in its amazing reporting capability.
+Ledger-mode provides easy facility to run reports directly from Emacs.
+It has four reports built-in and facilities for adding custom reports.
+</p>
+<p>Typing <kbd>C-c C-o C-r</kbd> or using menu &lsquo;<samp>Ledger Run Report</samp>&rsquo; prompt
+for the name of a saved report.  The built-in reports are:
+</p>
+<dl compact="compact">
+<dt> <var>bal</var></dt>
+<dd><p>Produce a balance reports of all accounts.
+</p>
+</dd>
+<dt> <var>reg</var></dt>
+<dd><p>Produce a register report of all transactions.
+</p>
+</dd>
+<dt> <var>payee</var></dt>
+<dd><p>Prompt for a payee, then produce a register report of all transactions
+involving that payee.
+</p>
+</dd>
+<dt> <var>account</var></dt>
+<dd><p>Prompt for an account, then produce a register report of all
+transactions involving that account.
+</p>
+</dd>
+</dl>
+
+<hr size="6">
+<a name="Adding-and-Editing-Reports"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Running-Basic-Reports" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Expansion-Formats" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Report-Buffer" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Report-Buffer" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Scheduling-Transactions" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Adding-and-Editing-Reports-1"></a>
+<h2 class="section">4.2 Adding and Editing Reports</h2>
+<a name="index-ledger_002dreports"></a>
+<a name="index-M_002d1-C_002dc-C_002do-C_002dr"></a>
+<a name="index-S"></a>
+<a name="index-C_002dc-C_002do-C_002de"></a>
+<a name="index-e"></a>
+<a name="index-report_002c-adding-and-editing"></a>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#Expansion-Formats">4.2.1 Expansion Formats</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Make-Report-Transactions-Active">4.2.2 Make Report Transactions Active</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<p>If you type a report name that Ledger-mode doesn&rsquo;t recognize it will
+prompt you for a ledger command line to run.  That command is
+automatically saved with the name given and you can re-run it at any
+time.
+</p>
+<p>There are two ways to edit the command line for a report. The first is
+to provide a prefix argument to the run-report command.  For example,
+type <kbd>M-1 C-c C-o C-r</kbd>. This will prompt you for the report name,
+then present the report command line to be edited.  When you hit
+<kbd>RET</kbd>, the report will be run, but it will not be permanently saved.
+If you want to save it, type <kbd>S</kbd> in the &lsquo;<tt>*Ledger Report*</tt>&rsquo;
+buffer you will have the option to give it a new name, or overwrite the
+old report.
+</p>
+<p>Deleting reports is accomplished by typing <kbd>C-c C-o C-e</kbd> or using
+&lsquo;<samp>Edit Reports</samp>&rsquo; menu in the ledger buffer, or typing <kbd>e</kbd> in the
+&lsquo;<tt>*Ledger Report*</tt>&rsquo; buffer.  This takes you to the Emacs
+customization window for the Ledger Reports variables.  Use the widgets
+to delete the report you want removed.
+</p>
+<hr size="6">
+<a name="Expansion-Formats"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Adding-and-Editing-Reports" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Make-Report-Transactions-Active" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Report-Buffer" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Adding-and-Editing-Reports" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Scheduling-Transactions" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Expansion-Formats-1"></a>
+<h3 class="subsection">4.2.1 Expansion Formats</h3>
+<a name="index-report_002c-custom-variable"></a>
+
+<p>It is sometimes convenient to leave room to customize a report without
+saving the command line every time.  For example running a register
+report for a specific account, enter at runtime by the user.  The
+built-in report <var>account</var> does exactly that, using a variable
+expansion to prompt the user for the account to use.  There are four
+variables that can be expanded to run a report:
+</p>
+<dl compact="compact">
+<dt> <var>ledger-file</var></dt>
+<dd><p>Returns the file to be operated on.
+</p>
+</dd>
+<dt> <var>payee</var></dt>
+<dd><p>Prompts for a payee.
+</p>
+</dd>
+<dt> <var>account</var></dt>
+<dd><p>Prompt for an account.
+</p>
+</dd>
+<dt> <var>value</var></dt>
+<dd><p>Prompt for a tag value.
+</p>
+</dd>
+</dl>
+
+<p>You can use these expansion values in your ledger report commands.  For
+example, if you wanted to specify a register report the displayed
+transactions from a user-determined account with a particular meta-data
+tag value, you specify the following command line:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">ledger -f %(ledger-file) reg %(account) \
+  --limit \&quot;tag('my-tag') =~/%(value)/\&quot;
+</pre></td></tr></table>
+
+<p>Note how the double-quotes are escaped with back-slashes.
+</p>
+<hr size="6">
+<a name="Make-Report-Transactions-Active"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Expansion-Formats" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Reversing-Report-Order" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Report-Buffer" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Adding-and-Editing-Reports" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Scheduling-Transactions" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Make-Report-Transactions-Active-1"></a>
+<h3 class="subsection">4.2.2 Make Report Transactions Active</h3>
+<a name="index-report_002c-custom-command"></a>
+
+<p>In a large register report it is convenient to be able to jump to the
+source transaction.  Ledger-mode will automatically include source
+information in every register file that doesn&rsquo;t contain
+a &lsquo;<samp>--subtotal</samp>&rsquo; option. It does this by adding
+&lsquo;<samp>--prepend-format='%(filename):%(beg_line):'</samp>&rsquo; to the register
+report command-line you specify.  You should never have to see this, but
+if there is an error in your ledger output this additional information
+may not get stripped out of the visible report.
+</p>
+<hr size="6">
+<a name="Reversing-Report-Order"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Make-Report-Transactions-Active" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Scheduling-Transactions" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Report-Buffer" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Report-Buffer" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Scheduling-Transactions" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Reversing-Report-Order-1"></a>
+<h2 class="section">4.3 Reversing Report Order</h2>
+<a name="index-R"></a>
+<a name="index-report_002c-order-reversing"></a>
+
+<p>Often, banks show their on-line transaction histories with the most
+recent transaction at the top.  Ledger itself cannot do a sensible
+ledger report in reverse chronological order, if you sort on reverse
+date the calculation will also run in the opposite direction.  If you
+want to compare a ledger register report to a bank report with the most
+recent transactions at the top, type <kbd>R</kbd> in the &lsquo;<tt>*Ledger
+Report*</tt>&rsquo; buffer and it will reverse the order of the transactions and
+maintain the proper mathematical sense.
+</p>
+<hr size="6">
+<a name="Scheduling-Transactions"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Reversing-Report-Order" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Specifying-Upcoming-Transactions" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Report-Buffer" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Customizing-Ledger_002dmode" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Scheduling-Transactions-1"></a>
+<h1 class="chapter">5. Scheduling Transactions</h1>
+
+<p>The Ledger program provide for automating transactions but these
+transaction aren&rsquo;t &ldquo;real&rdquo;, they only exist inside a ledger session and
+are not reflected in the actual data file.  Many transactions are very
+repetitive, but may vary slightly in the date they occur on, or the
+amount.  Some transactions are weekly, monthly, quarterly or annually.
+Ledger mode provides a way to schedule upcoming transaction with a
+flexible scheduler that allows you to specify the transactions in a
+separate ledger file and calculate the upcoming occurrences of those
+transactions.  You can then copy the transactions into your live data
+file.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#Specifying-Upcoming-Transactions">5.1 Specifying Upcoming Transactions</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr size="6">
+<a name="Specifying-Upcoming-Transactions"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Scheduling-Transactions" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Customizing-Ledger_002dmode" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Scheduling-Transactions" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Scheduling-Transactions" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Customizing-Ledger_002dmode" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Specifying-Upcoming-Transactions-1"></a>
+<h2 class="section">5.1 Specifying Upcoming Transactions</h2>
+
+<p>The format for specifying transactions is identical to Ledger&rsquo;s file
+format with the exception of the date field.  The data field is modified
+by surrounding it with brackets and using wild cards to specity free
+months or years.
+</p>
+
+<hr size="6">
+<a name="Customizing-Ledger_002dmode"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Specifying-Upcoming-Transactions" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Ledger_002dmode-Customization" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Scheduling-Transactions" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Generating-Ledger-Regression-Tests" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Customizing-Ledger_002dmode-1"></a>
+<h1 class="chapter">6. Customizing Ledger-mode</h1>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#Ledger_002dmode-Customization">6.1 Ledger-mode Customization</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Customization-Variables">6.2 Customization Variables</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr size="6">
+<a name="Ledger_002dmode-Customization"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Customizing-Ledger_002dmode" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Customization-Variables" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Customizing-Ledger_002dmode" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Customizing-Ledger_002dmode" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Generating-Ledger-Regression-Tests" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Ledger_002dmode-Customization-1"></a>
+<h2 class="section">6.1 Ledger-mode Customization</h2>
+
+<p>Ledger-mode has several options available for configuration.  All
+options can be configured through the Emacs customization menus, or
+specified in your Emacs initialization file.  The complete list of
+options is shown below. To change the option using the Emacs
+customization menu, simply chose customize in the Options menu and look
+for Ledger under the data options.  Alternately you can choose
+&lsquo;<samp>Customize Specific Group</samp>&rsquo; and enter &lsquo;<samp>Ledger</samp>&rsquo; as the group.
+</p>
+<hr size="6">
+<a name="Customization-Variables"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Ledger_002dmode-Customization" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Ledger-Customization-Group" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Customizing-Ledger_002dmode" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Customizing-Ledger_002dmode" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Generating-Ledger-Regression-Tests" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Customization-Variables-1"></a>
+<h2 class="section">6.2 Customization Variables</h2>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#Ledger-Customization-Group">6.2.1 Ledger Customization Group</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Ledger-Reconcile-Customization-Group">6.2.2 Ledger Reconcile Customization Group</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Ledger-Report-Customization-Group">6.2.3 Ledger Report Customization Group</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Ledger-Faces-Customization-Group">6.2.4 Ledger Faces Customization Group</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Ledger-Post-Customization-Group">6.2.5 Ledger Post Customization Group</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Ledger-Exec-Customization-Group">6.2.6 Ledger Exec Customization Group</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Ledger-Test-Customization-Group">6.2.7 Ledger Test Customization Group</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Ledger-Texi-Customization-Group">6.2.8 Ledger Texi Customization Group</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr size="6">
+<a name="Ledger-Customization-Group"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Customization-Variables" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Ledger-Reconcile-Customization-Group" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Customizing-Ledger_002dmode" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Customization-Variables" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Generating-Ledger-Regression-Tests" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Ledger-Customization-Group-1"></a>
+<h3 class="subsection">6.2.1 Ledger Customization Group</h3>
+<a name="index-customization_002c-ledger_002dmode"></a>
+
+<dl compact="compact">
+<dt> &lsquo;<samp>ledger-occur-use-face-shown</samp>&rsquo;
+<a name="index-ledger_002doccur_002duse_002dface_002dshown"></a>
+</dt>
+<dd><p>If non-nil, use a custom face for transactions shown in
+&lsquo;<samp>ledger-occur</samp>&rsquo; mode using &lsquo;<samp>ledger-occur-xact-face</samp>&rsquo;.
+</p>
+</dd>
+<dt> &lsquo;<samp>ledger-clear-whole-transactions</samp>&rsquo;
+<a name="index-ledger_002dclear_002dwhole_002dtransactions"></a>
+</dt>
+<dd><p>If non-nil, clear whole transactions, not individual postings.
+</p>
+</dd>
+<dt> &lsquo;<samp>ledger-highlight-xact-under-point</samp>&rsquo;
+<a name="index-ledger_002dhighlight_002dxact_002dunder_002dpoint"></a>
+</dt>
+<dd><p>If non-nil, highlight transaction under point using
+&lsquo;<samp>ledger-font-highlight-face</samp>&rsquo;.
+</p>
+</dd>
+</dl>
+
+<hr size="6">
+<a name="Ledger-Reconcile-Customization-Group"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Ledger-Customization-Group" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Ledger-Report-Customization-Group" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Customizing-Ledger_002dmode" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Customization-Variables" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Generating-Ledger-Regression-Tests" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Ledger-Reconcile-Customization-Group-1"></a>
+<h3 class="subsection">6.2.2 Ledger Reconcile Customization Group</h3>
+<a name="index-customization_002c-reconcile"></a>
+
+<dl compact="compact">
+<dt> &lsquo;<samp>ledger-reconcile-default-commodity</samp>&rsquo;
+<a name="index-ledger_002dreconcile_002ddefault_002dcommodity-1"></a>
+</dt>
+<dd><p>The default commodity for use in target calculations in ledger
+reconcile.  Defaults to &lsquo;<samp>$</samp>&rsquo; (USD).
+</p>
+</dd>
+<dt> &lsquo;<samp>ledger-recon-buffer-name</samp>&rsquo;
+<a name="index-ledger_002drecon_002dbuffer_002dname"></a>
+</dt>
+<dd><p>Name to use for reconciliation buffer. Defaults to &lsquo;<tt>*Reconcile*</tt>&rsquo;.
+</p>
+</dd>
+<dt> &lsquo;<samp>ledger-narrow-on-reconcile</samp>&rsquo;
+<a name="index-ledger_002dnarrow_002don_002dreconcile"></a>
+</dt>
+<dd><p>If non-nil, limit transactions shown in main buffer to those matching
+the reconcile regex.
+</p>
+</dd>
+<dt> &lsquo;<samp>ledger-buffer-tracks-reconcile-buffer</samp>&rsquo;
+<a name="index-ledger_002dbuffer_002dtracks_002dreconcile_002dbuffer"></a>
+</dt>
+<dd><p>If non-nil, then when the cursor is moved to a new transaction in the
+reconcile window.
+</p>
+</dd>
+<dt> &lsquo;<samp>ledger-reconcile-force-window-bottom</samp>&rsquo;
+<a name="index-ledger_002dreconcile_002dforce_002dwindow_002dbottom"></a>
+</dt>
+<dd><p>If non-nil, make the reconcile window appear along the bottom of the
+register window and resize.
+</p>
+</dd>
+<dt> &lsquo;<samp>ledger-reconcile-toggle-to-pending</samp>&rsquo;
+<a name="index-ledger_002dreconcile_002dtoggle_002dto_002dpending"></a>
+</dt>
+<dd><p>If non-nil, then toggle between uncleared and pending &lsquo;<samp>!</samp>&rsquo;. If
+false toggle between uncleared and cleared &lsquo;<samp>*</samp>&rsquo;.
+</p>
+</dd>
+</dl>
+
+<hr size="6">
+<a name="Ledger-Report-Customization-Group"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Ledger-Reconcile-Customization-Group" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Ledger-Faces-Customization-Group" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Customizing-Ledger_002dmode" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Customization-Variables" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Generating-Ledger-Regression-Tests" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Ledger-Report-Customization-Group-1"></a>
+<h3 class="subsection">6.2.3 Ledger Report Customization Group</h3>
+<a name="index-customization_002c-report"></a>
+
+<dl compact="compact">
+<dt> &lsquo;<samp>ledger-reports</samp>&rsquo;
+<a name="index-ledger_002dreports-1"></a>
+</dt>
+<dd><p>Definition of reports to run.
+</p>
+</dd>
+<dt> &lsquo;<samp>ledger-report-format-specifiers</samp>&rsquo;
+<a name="index-ledger_002dreport_002dformat_002dspecifiers"></a>
+</dt>
+<dd><p>An alist mapping ledger report format specifiers to implementing
+functions.
+</p>
+</dd>
+</dl>
+
+<hr size="6">
+<a name="Ledger-Faces-Customization-Group"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Ledger-Report-Customization-Group" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Ledger-Post-Customization-Group" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Customizing-Ledger_002dmode" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Customization-Variables" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Generating-Ledger-Regression-Tests" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Ledger-Faces-Customization-Group-1"></a>
+<h3 class="subsection">6.2.4 Ledger Faces Customization Group</h3>
+<a name="index-customization_002c-faces"></a>
+
+<p>Ledger Faces: Ledger-mode highlighting
+</p>
+<dl compact="compact">
+<dt> &lsquo;<samp>ledger-font-uncleared-face</samp>&rsquo;
+<a name="index-ledger_002dfont_002duncleared_002dface"></a>
+</dt>
+<dd><p>Default face for Ledger.
+</p>
+</dd>
+<dt> &lsquo;<samp>ledger-font-cleared-face</samp>&rsquo;
+<a name="index-ledger_002dfont_002dcleared_002dface"></a>
+</dt>
+<dd><p>Default face for cleared &lsquo;<samp>*</samp>&rsquo; transactions.
+</p>
+</dd>
+<dt> &lsquo;<samp>ledger-font-highlight-face</samp>&rsquo;
+<a name="index-ledger_002dfont_002dhighlight_002dface"></a>
+</dt>
+<dd><p>Default face for transaction under point.
+</p>
+</dd>
+<dt> &lsquo;<samp>ledger-font-pending-face</samp>&rsquo;
+<a name="index-ledger_002dfont_002dpending_002dface"></a>
+</dt>
+<dd><p>Default face for pending &lsquo;<samp>!</samp>&rsquo; transactions.
+</p>
+</dd>
+<dt> &lsquo;<samp>ledger-font-other-face</samp>&rsquo;
+<a name="index-ledger_002dfont_002dother_002dface"></a>
+</dt>
+<dd><p>Default face for other transactions.
+</p>
+</dd>
+<dt> &lsquo;<samp>ledger-font-posting-account-face</samp>&rsquo;
+<a name="index-ledger_002dfont_002dposting_002daccount_002dface"></a>
+</dt>
+<dd><p>Face for Ledger accounts.
+</p>
+</dd>
+<dt> &lsquo;<samp>ledger-font-posting-account-cleared-face</samp>&rsquo;
+<a name="index-ledger_002dfont_002dposting_002daccount_002dcleared_002dface"></a>
+</dt>
+<dd><p>Face for cleared Ledger accounts.
+</p>
+</dd>
+<dt> &lsquo;<samp>ledger-font-posting-account-pending-face</samp>&rsquo;
+<a name="index-ledger_002dfont_002dposting_002daccount_002dpending_002dface"></a>
+</dt>
+<dd><p>Face for Ledger pending accounts.
+</p>
+</dd>
+<dt> &lsquo;<samp>ledger-font-posting-amount-face</samp>&rsquo;
+<a name="index-ledger_002dfont_002dposting_002damount_002dface"></a>
+</dt>
+<dd><p>Face for Ledger amounts.
+</p>
+</dd>
+<dt> &lsquo;<samp>ledger-occur-narrowed-face</samp>&rsquo;
+<a name="index-ledger_002doccur_002dnarrowed_002dface"></a>
+</dt>
+<dd><p>Default face for Ledger occur mode hidden transactions.
+</p>
+</dd>
+<dt> &lsquo;<samp>ledger-occur-xact-face</samp>&rsquo;
+<a name="index-ledger_002doccur_002dxact_002dface"></a>
+</dt>
+<dd><p>Default face for Ledger occur mode shown transactions.
+</p>
+</dd>
+<dt> &lsquo;<samp>ledger-font-comment-face</samp>&rsquo;
+<a name="index-ledger_002dfont_002dcomment_002dface"></a>
+</dt>
+<dd><p>Face for Ledger comments.
+</p>
+</dd>
+<dt> &lsquo;<samp>ledger-font-reconciler-uncleared-face</samp>&rsquo;
+<a name="index-ledger_002dfont_002dreconciler_002duncleared_002dface"></a>
+</dt>
+<dd><p>Default face for uncleared transactions in the reconcile window.
+</p>
+</dd>
+<dt> &lsquo;<samp>ledger-font-reconciler-cleared-face</samp>&rsquo;
+<a name="index-ledger_002dfont_002dreconciler_002dcleared_002dface"></a>
+</dt>
+<dd><p>Default face for cleared  &lsquo;<samp>*</samp>&rsquo; transactions in the reconcile window.
+</p>
+</dd>
+<dt> &lsquo;<samp>ledger-font-reconciler-pending-face</samp>&rsquo;
+<a name="index-ledger_002dfont_002dreconciler_002dpending_002dface"></a>
+</dt>
+<dd><p>Default face for pending  &lsquo;<samp>!</samp>&rsquo; transactions in the reconcile window.
+</p>
+</dd>
+<dt> &lsquo;<samp>ledger-font-report-clickable-face</samp>&rsquo;
+<a name="index-ledger_002dfont_002dreport_002dclickable_002dface"></a>
+</dt>
+<dd><p>FIXME
+</p>
+</dd>
+</dl>
+
+<hr size="6">
+<a name="Ledger-Post-Customization-Group"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Ledger-Faces-Customization-Group" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Ledger-Exec-Customization-Group" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Customizing-Ledger_002dmode" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Customization-Variables" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Generating-Ledger-Regression-Tests" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Ledger-Post-Customization-Group-1"></a>
+<h3 class="subsection">6.2.5 Ledger Post Customization Group</h3>
+<a name="index-customization_002c-post"></a>
+
+<p>Ledger Post:
+</p>
+<dl compact="compact">
+<dt> &lsquo;<samp>ledger-post-auto-adjust-amounts</samp>&rsquo;
+<a name="index-ledger_002dpost_002dauto_002dadjust_002damounts-1"></a>
+</dt>
+<dd><p>If non-nil, then automatically align amounts to column specified in
+&lsquo;<samp>ledger-post-amount-alignment-column</samp>&rsquo;.
+</p>
+</dd>
+<dt> &lsquo;<samp>ledger-post-amount-alignment-column</samp>&rsquo;
+<a name="index-ledger_002dpost_002damount_002dalignment_002dcolumn-1"></a>
+</dt>
+<dd><p>The column Ledger-mode uses to align amounts.
+</p>
+</dd>
+<dt> &lsquo;<samp>ledger-default-acct-transaction-indent</samp>&rsquo;
+<a name="index-ledger_002ddefault_002dacct_002dtransaction_002dindent"></a>
+</dt>
+<dd><p>Default indentation for account transactions in an entry.
+</p>
+</dd>
+<dt> &lsquo;<samp>ledger-post-use-completion-engine</samp>&rsquo;
+<a name="index-ledger_002dpost_002duse_002dcompletion_002dengine"></a>
+</dt>
+<dd><p>Which completion engine to use: <var>iswitchb</var>, <var>ido</var>, or built-in.
+</p>
+</dd>
+<dt> &lsquo;<samp>ledger-post-use-ido</samp>&rsquo;
+<a name="index-ledger_002dpost_002duse_002dido"></a>
+</dt>
+</dl>
+
+<hr size="6">
+<a name="Ledger-Exec-Customization-Group"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Ledger-Post-Customization-Group" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Ledger-Test-Customization-Group" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Customizing-Ledger_002dmode" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Customization-Variables" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Generating-Ledger-Regression-Tests" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Ledger-Exec-Customization-Group-1"></a>
+<h3 class="subsection">6.2.6 Ledger Exec Customization Group</h3>
+<a name="index-customization_002c-executable"></a>
+
+<p>Ledger Exec: Interface to the Ledger command-line accounting program.
+</p>
+<dl compact="compact">
+<dt> &lsquo;<samp>ledger-binary-path</samp>&rsquo;
+<a name="index-ledger_002dbinary_002dpath"></a>
+</dt>
+<dd><p>Path to the ledger executable.
+</p>
+</dd>
+<dt> &lsquo;<samp>ledger-init-file-name</samp>&rsquo;
+<a name="index-ledger_002dinit_002dfile_002dname"></a>
+</dt>
+<dd><p>Location of the ledger initialization file. nil if you don&rsquo;t have one.
+</p>
+</dd>
+</dl>
+
+<hr size="6">
+<a name="Ledger-Test-Customization-Group"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Ledger-Exec-Customization-Group" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Ledger-Texi-Customization-Group" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Customizing-Ledger_002dmode" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Customization-Variables" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Generating-Ledger-Regression-Tests" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Ledger-Test-Customization-Group-1"></a>
+<h3 class="subsection">6.2.7 Ledger Test Customization Group</h3>
+<a name="index-customization_002c-test"></a>
+
+<dl compact="compact">
+<dt> &lsquo;<samp>ledger-source-directory</samp>&rsquo;
+<a name="index-ledger_002dsource_002ddirectory"></a>
+</dt>
+<dd><p>Directory where the Ledger sources are located.
+</p>
+</dd>
+<dt> &lsquo;<samp>ledger-test-binary</samp>&rsquo;
+<a name="index-ledger_002dtest_002dbinary"></a>
+</dt>
+<dd><p>Directory where the debug binary.
+</p>
+</dd>
+</dl>
+
+<hr size="6">
+<a name="Ledger-Texi-Customization-Group"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Ledger-Test-Customization-Group" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Generating-Ledger-Regression-Tests" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Customizing-Ledger_002dmode" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Customization-Variables" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Generating-Ledger-Regression-Tests" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Ledger-Texi-Customization-Group-1"></a>
+<h3 class="subsection">6.2.8 Ledger Texi Customization Group</h3>
+<a name="index-customization_002c-texi"></a>
+
+<dl compact="compact">
+<dt> &lsquo;<samp>ledger-texi-sample-doc-path</samp>&rsquo;
+<a name="index-ledger_002dtexi_002dsample_002ddoc_002dpath"></a>
+</dt>
+<dd><p>Location for sample data to be used in texi tests, defaults to
+&lsquo;<tt>~/ledger/doc/sample.dat</tt>&rsquo;.
+</p>
+</dd>
+<dt> &lsquo;<samp>ledger-texi-normalization-args</samp>&rsquo;
+<a name="index-ledger_002dtexi_002dnormalization_002dargs"></a>
+</dt>
+<dd><p>texi normalization for producing ledger output, defaults to
+&lsquo;<samp>--args-only --columns 80</samp>&rsquo;.
+</p>
+</dd>
+</dl>
+
+<hr size="6">
+<a name="Generating-Ledger-Regression-Tests"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Ledger-Texi-Customization-Group" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Embedding-Example-results-in-Ledger-Documentation" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Customizing-Ledger_002dmode" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Embedding-Example-results-in-Ledger-Documentation" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Generating-Ledger-Regression-Tests-1"></a>
+<h1 class="chapter">7. Generating Ledger Regression Tests</h1>
+
+<p>Work in Progress.
+</p>
+<hr size="6">
+<a name="Embedding-Example-results-in-Ledger-Documentation"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Generating-Ledger-Regression-Tests" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Hacking-Ledger_002dmode" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Generating-Ledger-Regression-Tests" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Hacking-Ledger_002dmode" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Embedding-Example-results-in-Ledger-Documentation-1"></a>
+<h1 class="chapter">8. Embedding Example results in Ledger Documentation</h1>
+
+<p>Work in Progress.
+</p>
+<hr size="6">
+<a name="Hacking-Ledger_002dmode"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Embedding-Example-results-in-Ledger-Documentation" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Embedding-Example-results-in-Ledger-Documentation" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Hacking-Ledger_002dmode-1"></a>
+<h1 class="chapter">9. Hacking Ledger-mode</h1>
+
+<p>Work in Progress.
+</p>
+<hr size="6">
+<a name="Concept-Index"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Hacking-Ledger_002dmode" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Command-_0026-Variable-Index" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Hacking-Ledger_002dmode" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Command-_0026-Variable-Index" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Concept-Index-1"></a>
+<h1 class="unnumbered">Concept Index</h1>
+
+<table><tr><th valign="top">Jump to: &nbsp; </th><td><a href="#Concept-Index-1_cp_letter-B" class="summary-letter"><b>B</b></a>
+ &nbsp; 
+<a href="#Concept-Index-1_cp_letter-C" class="summary-letter"><b>C</b></a>
+ &nbsp; 
+<a href="#Concept-Index-1_cp_letter-D" class="summary-letter"><b>D</b></a>
+ &nbsp; 
+<a href="#Concept-Index-1_cp_letter-G" class="summary-letter"><b>G</b></a>
+ &nbsp; 
+<a href="#Concept-Index-1_cp_letter-I" class="summary-letter"><b>I</b></a>
+ &nbsp; 
+<a href="#Concept-Index-1_cp_letter-M" class="summary-letter"><b>M</b></a>
+ &nbsp; 
+<a href="#Concept-Index-1_cp_letter-P" class="summary-letter"><b>P</b></a>
+ &nbsp; 
+<a href="#Concept-Index-1_cp_letter-R" class="summary-letter"><b>R</b></a>
+ &nbsp; 
+<a href="#Concept-Index-1_cp_letter-T" class="summary-letter"><b>T</b></a>
+ &nbsp; 
+<a href="#Concept-Index-1_cp_letter-U" class="summary-letter"><b>U</b></a>
+ &nbsp; 
+</td></tr></table>
+<table border="0" class="index-cp">
+<tr><td></td><th align="left">Index Entry</th><th align="left"> Section</th></tr>
+<tr><td colspan="3"> <hr></td></tr>
+<tr><th><a name="Concept-Index-1_cp_letter-B">B</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#index-balance">balance</a></td><td valign="top"><a href="#Quick-Balance-Display">2.1.1 Quick Balance Display</a></td></tr>
+<tr><td colspan="3"> <hr></td></tr>
+<tr><th><a name="Concept-Index-1_cp_letter-C">C</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#index-Calc">Calc</a></td><td valign="top"><a href="#Editing-Amounts">2.3 Editing Amounts</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-cleared">cleared</a></td><td valign="top"><a href="#Marking-Transactions">2.4 Marking Transactions</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-customization_002c-executable">customization, executable</a></td><td valign="top"><a href="#Ledger-Exec-Customization-Group">6.2.6 Ledger Exec Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-customization_002c-faces">customization, faces</a></td><td valign="top"><a href="#Ledger-Faces-Customization-Group">6.2.4 Ledger Faces Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-customization_002c-ledger_002dmode">customization, ledger-mode</a></td><td valign="top"><a href="#Ledger-Customization-Group">6.2.1 Ledger Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-customization_002c-post">customization, post</a></td><td valign="top"><a href="#Ledger-Post-Customization-Group">6.2.5 Ledger Post Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-customization_002c-reconcile">customization, reconcile</a></td><td valign="top"><a href="#Ledger-Reconcile-Customization-Group">6.2.2 Ledger Reconcile Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-customization_002c-report">customization, report</a></td><td valign="top"><a href="#Ledger-Report-Customization-Group">6.2.3 Ledger Report Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-customization_002c-test">customization, test</a></td><td valign="top"><a href="#Ledger-Test-Customization-Group">6.2.7 Ledger Test Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-customization_002c-texi">customization, texi</a></td><td valign="top"><a href="#Ledger-Texi-Customization-Group">6.2.8 Ledger Texi Customization Group</a></td></tr>
+<tr><td colspan="3"> <hr></td></tr>
+<tr><th><a name="Concept-Index-1_cp_letter-D">D</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#index-demo">demo</a></td><td valign="top"><a href="#Quick-Demo">1.3 Quick Demo</a></td></tr>
+<tr><td colspan="3"> <hr></td></tr>
+<tr><th><a name="Concept-Index-1_cp_letter-G">G</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#index-GNU-Emacs-Calculator">GNU Emacs Calculator</a></td><td valign="top"><a href="#Editing-Amounts">2.3 Editing Amounts</a></td></tr>
+<tr><td colspan="3"> <hr></td></tr>
+<tr><th><a name="Concept-Index-1_cp_letter-I">I</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#index-installation">installation</a></td><td valign="top"><a href="#Quick-Installation">1.1 Quick Installation</a></td></tr>
+<tr><td colspan="3"> <hr></td></tr>
+<tr><th><a name="Concept-Index-1_cp_letter-M">M</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#index-menu">menu</a></td><td valign="top"><a href="#Menus">1.2 Menus</a></td></tr>
+<tr><td colspan="3"> <hr></td></tr>
+<tr><th><a name="Concept-Index-1_cp_letter-P">P</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#index-pending">pending</a></td><td valign="top"><a href="#Marking-Transactions">2.4 Marking Transactions</a></td></tr>
+<tr><td colspan="3"> <hr></td></tr>
+<tr><th><a name="Concept-Index-1_cp_letter-R">R</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#index-reconciliation_002c-account-changing">reconciliation, account changing</a></td><td valign="top"><a href="#Changing-Reconciliation-Account">3.7 Changing Reconciliation Account</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-reconciliation_002c-basics">reconciliation, basics</a></td><td valign="top"><a href="#Basics-of-Reconciliation">3.1 Basics of Reconciliation</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-reconciliation_002c-finalizing">reconciliation, finalizing</a></td><td valign="top"><a href="#Finalize-Reconciliation">3.5 Finalize Reconciliation</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-reconciliation_002c-starting">reconciliation, starting</a></td><td valign="top"><a href="#Starting-a-Reconciliation">3.2 Starting a Reconciliation</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-reconciliation_002c-target-changing">reconciliation, target changing</a></td><td valign="top"><a href="#Changing-Reconciliation-Target">3.8 Changing Reconciliation Target</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-reconciliation_002c-transaction-adding-and-deleting">reconciliation, transaction adding and deleting</a></td><td valign="top"><a href="#Adding-and-Deleting-Transactions-during-Reconciliation">3.6 Adding and Deleting Transactions during Reconciliation</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-reconciliation_002c-transaction-editing">reconciliation, transaction editing</a></td><td valign="top"><a href="#Edit-Transactions-During-Reconciliation">3.4 Edit Transactions during Reconciliation</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-reconciliation_002c-transaction-marking">reconciliation, transaction marking</a></td><td valign="top"><a href="#Mark-Transactions-Pending">3.3 Mark Transactions Pending</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-report_002c-adding-and-editing">report, adding and editing</a></td><td valign="top"><a href="#Adding-and-Editing-Reports">4.2 Adding and Editing Reports</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-report_002c-custom-command">report, custom command</a></td><td valign="top"><a href="#Make-Report-Transactions-Active">4.2.2 Make Report Transactions Active</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-report_002c-custom-variable">report, custom variable</a></td><td valign="top"><a href="#Expansion-Formats">4.2.1 Expansion Formats</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-report_002c-order-reversing">report, order reversing</a></td><td valign="top"><a href="#Reversing-Report-Order">4.3 Reversing Report Order</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-report_002c-running">report, running</a></td><td valign="top"><a href="#Running-Basic-Reports">4.1 Running Reports</a></td></tr>
+<tr><td colspan="3"> <hr></td></tr>
+<tr><th><a name="Concept-Index-1_cp_letter-T">T</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#index-transaction_002c-adding">transaction, adding</a></td><td valign="top"><a href="#Adding-Transactions">2.1 Adding Transactions</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-transaction_002c-copying">transaction, copying</a></td><td valign="top"><a href="#Copying-Transactions">2.2 Copying Transactions</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-transaction_002c-deleting">transaction, deleting</a></td><td valign="top"><a href="#Deleting-Transactions">2.5 Deleting Transactions</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-transaction_002c-display-filtering">transaction, display filtering</a></td><td valign="top"><a href="#Narrowing-Transactions">2.7 Narrowing Transactions</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-transaction_002c-editing-amounts">transaction, editing amounts</a></td><td valign="top"><a href="#Editing-Amounts">2.3 Editing Amounts</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-transaction_002c-marking">transaction, marking</a></td><td valign="top"><a href="#Marking-Transactions">2.4 Marking Transactions</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-transaction_002c-narrowing">transaction, narrowing</a></td><td valign="top"><a href="#Narrowing-Transactions">2.7 Narrowing Transactions</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-transaction_002c-sorting">transaction, sorting</a></td><td valign="top"><a href="#Sorting-Transactions">2.6 Sorting Transactions</a></td></tr>
+<tr><td colspan="3"> <hr></td></tr>
+<tr><th><a name="Concept-Index-1_cp_letter-U">U</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#index-uncleared">uncleared</a></td><td valign="top"><a href="#Marking-Transactions">2.4 Marking Transactions</a></td></tr>
+<tr><td colspan="3"> <hr></td></tr>
+</table>
+<table><tr><th valign="top">Jump to: &nbsp; </th><td><a href="#Concept-Index-1_cp_letter-B" class="summary-letter"><b>B</b></a>
+ &nbsp; 
+<a href="#Concept-Index-1_cp_letter-C" class="summary-letter"><b>C</b></a>
+ &nbsp; 
+<a href="#Concept-Index-1_cp_letter-D" class="summary-letter"><b>D</b></a>
+ &nbsp; 
+<a href="#Concept-Index-1_cp_letter-G" class="summary-letter"><b>G</b></a>
+ &nbsp; 
+<a href="#Concept-Index-1_cp_letter-I" class="summary-letter"><b>I</b></a>
+ &nbsp; 
+<a href="#Concept-Index-1_cp_letter-M" class="summary-letter"><b>M</b></a>
+ &nbsp; 
+<a href="#Concept-Index-1_cp_letter-P" class="summary-letter"><b>P</b></a>
+ &nbsp; 
+<a href="#Concept-Index-1_cp_letter-R" class="summary-letter"><b>R</b></a>
+ &nbsp; 
+<a href="#Concept-Index-1_cp_letter-T" class="summary-letter"><b>T</b></a>
+ &nbsp; 
+<a href="#Concept-Index-1_cp_letter-U" class="summary-letter"><b>U</b></a>
+ &nbsp; 
+</td></tr></table>
+
+<hr size="6">
+<a name="Command-_0026-Variable-Index"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Concept-Index" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Keystroke-Index" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Keystroke-Index" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Command-_0026-Variable-Index-1"></a>
+<h1 class="unnumbered">Command &amp; Variable Index</h1>
+
+<table><tr><th valign="top">Jump to: &nbsp; </th><td><a href="#Command-_0026-Variable-Index-1_fn_letter-L" class="summary-letter"><b>L</b></a>
+ &nbsp; 
+</td></tr></table>
+<table border="0" class="index-fn">
+<tr><td></td><th align="left">Index Entry</th><th align="left"> Section</th></tr>
+<tr><td colspan="3"> <hr></td></tr>
+<tr><th><a name="Command-_0026-Variable-Index-1_fn_letter-L">L</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dbinary_002dpath"><code>ledger-binary-path</code></a></td><td valign="top"><a href="#Ledger-Exec-Customization-Group">6.2.6 Ledger Exec Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dbuffer_002dtracks_002dreconcile_002dbuffer"><code>ledger-buffer-tracks-reconcile-buffer</code></a></td><td valign="top"><a href="#Ledger-Reconcile-Customization-Group">6.2.2 Ledger Reconcile Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dclear_002dwhole_002dtransactions"><code>ledger-clear-whole-transactions</code></a></td><td valign="top"><a href="#Ledger-Customization-Group">6.2.1 Ledger Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002ddefault_002dacct_002dtransaction_002dindent"><code>ledger-default-acct-transaction-indent</code></a></td><td valign="top"><a href="#Ledger-Post-Customization-Group">6.2.5 Ledger Post Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dfont_002dcleared_002dface"><code>ledger-font-cleared-face</code></a></td><td valign="top"><a href="#Ledger-Faces-Customization-Group">6.2.4 Ledger Faces Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dfont_002dcomment_002dface"><code>ledger-font-comment-face</code></a></td><td valign="top"><a href="#Ledger-Faces-Customization-Group">6.2.4 Ledger Faces Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dfont_002dhighlight_002dface"><code>ledger-font-highlight-face</code></a></td><td valign="top"><a href="#Ledger-Faces-Customization-Group">6.2.4 Ledger Faces Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dfont_002dother_002dface"><code>ledger-font-other-face</code></a></td><td valign="top"><a href="#Ledger-Faces-Customization-Group">6.2.4 Ledger Faces Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dfont_002dpending_002dface"><code>ledger-font-pending-face</code></a></td><td valign="top"><a href="#Ledger-Faces-Customization-Group">6.2.4 Ledger Faces Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dfont_002dposting_002daccount_002dcleared_002dface"><code>ledger-font-posting-account-cleared-face</code></a></td><td valign="top"><a href="#Ledger-Faces-Customization-Group">6.2.4 Ledger Faces Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dfont_002dposting_002daccount_002dface"><code>ledger-font-posting-account-face</code></a></td><td valign="top"><a href="#Ledger-Faces-Customization-Group">6.2.4 Ledger Faces Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dfont_002dposting_002daccount_002dpending_002dface"><code>ledger-font-posting-account-pending-face</code></a></td><td valign="top"><a href="#Ledger-Faces-Customization-Group">6.2.4 Ledger Faces Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dfont_002dposting_002damount_002dface"><code>ledger-font-posting-amount-face</code></a></td><td valign="top"><a href="#Ledger-Faces-Customization-Group">6.2.4 Ledger Faces Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dfont_002dreconciler_002dcleared_002dface"><code>ledger-font-reconciler-cleared-face</code></a></td><td valign="top"><a href="#Ledger-Faces-Customization-Group">6.2.4 Ledger Faces Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dfont_002dreconciler_002dpending_002dface"><code>ledger-font-reconciler-pending-face</code></a></td><td valign="top"><a href="#Ledger-Faces-Customization-Group">6.2.4 Ledger Faces Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dfont_002dreconciler_002duncleared_002dface"><code>ledger-font-reconciler-uncleared-face</code></a></td><td valign="top"><a href="#Ledger-Faces-Customization-Group">6.2.4 Ledger Faces Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dfont_002dreport_002dclickable_002dface"><code>ledger-font-report-clickable-face</code></a></td><td valign="top"><a href="#Ledger-Faces-Customization-Group">6.2.4 Ledger Faces Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dfont_002duncleared_002dface"><code>ledger-font-uncleared-face</code></a></td><td valign="top"><a href="#Ledger-Faces-Customization-Group">6.2.4 Ledger Faces Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dhighlight_002dxact_002dunder_002dpoint"><code>ledger-highlight-xact-under-point</code></a></td><td valign="top"><a href="#Ledger-Customization-Group">6.2.1 Ledger Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dinit_002dfile_002dname"><code>ledger-init-file-name</code></a></td><td valign="top"><a href="#Ledger-Exec-Customization-Group">6.2.6 Ledger Exec Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dnarrow_002don_002dreconcile"><code>ledger-narrow-on-reconcile</code></a></td><td valign="top"><a href="#Ledger-Reconcile-Customization-Group">6.2.2 Ledger Reconcile Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002doccur_002dnarrowed_002dface"><code>ledger-occur-narrowed-face</code></a></td><td valign="top"><a href="#Ledger-Faces-Customization-Group">6.2.4 Ledger Faces Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002doccur_002duse_002dface_002dshown"><code>ledger-occur-use-face-shown</code></a></td><td valign="top"><a href="#Ledger-Customization-Group">6.2.1 Ledger Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002doccur_002dxact_002dface"><code>ledger-occur-xact-face</code></a></td><td valign="top"><a href="#Ledger-Faces-Customization-Group">6.2.4 Ledger Faces Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dpost_002damount_002dalignment_002dcolumn"><code>ledger-post-amount-alignment-column</code></a></td><td valign="top"><a href="#Adding-Transactions">2.1 Adding Transactions</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dpost_002damount_002dalignment_002dcolumn-1"><code>ledger-post-amount-alignment-column</code></a></td><td valign="top"><a href="#Ledger-Post-Customization-Group">6.2.5 Ledger Post Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dpost_002dauto_002dadjust_002damounts"><code>ledger-post-auto-adjust-amounts</code></a></td><td valign="top"><a href="#Adding-Transactions">2.1 Adding Transactions</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dpost_002dauto_002dadjust_002damounts-1"><code>ledger-post-auto-adjust-amounts</code></a></td><td valign="top"><a href="#Ledger-Post-Customization-Group">6.2.5 Ledger Post Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dpost_002duse_002dcompletion_002dengine"><code>ledger-post-use-completion-engine</code></a></td><td valign="top"><a href="#Ledger-Post-Customization-Group">6.2.5 Ledger Post Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dpost_002duse_002dido"><code>ledger-post-use-ido</code></a></td><td valign="top"><a href="#Ledger-Post-Customization-Group">6.2.5 Ledger Post Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002drecon_002dbuffer_002dname"><code>ledger-recon-buffer-name</code></a></td><td valign="top"><a href="#Ledger-Reconcile-Customization-Group">6.2.2 Ledger Reconcile Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dreconcile_002ddefault_002dcommodity"><code>ledger-reconcile-default-commodity</code></a></td><td valign="top"><a href="#Starting-a-Reconciliation">3.2 Starting a Reconciliation</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dreconcile_002ddefault_002dcommodity-1"><code>ledger-reconcile-default-commodity</code></a></td><td valign="top"><a href="#Ledger-Reconcile-Customization-Group">6.2.2 Ledger Reconcile Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dreconcile_002dforce_002dwindow_002dbottom"><code>ledger-reconcile-force-window-bottom</code></a></td><td valign="top"><a href="#Ledger-Reconcile-Customization-Group">6.2.2 Ledger Reconcile Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dreconcile_002dtoggle_002dto_002dpending"><code>ledger-reconcile-toggle-to-pending</code></a></td><td valign="top"><a href="#Ledger-Reconcile-Customization-Group">6.2.2 Ledger Reconcile Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dreport_002dformat_002dspecifiers"><code>ledger-report-format-specifiers</code></a></td><td valign="top"><a href="#Ledger-Report-Customization-Group">6.2.3 Ledger Report Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dreports"><code>ledger-reports</code></a></td><td valign="top"><a href="#Adding-and-Editing-Reports">4.2 Adding and Editing Reports</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dreports-1"><code>ledger-reports</code></a></td><td valign="top"><a href="#Ledger-Report-Customization-Group">6.2.3 Ledger Report Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dsource_002ddirectory"><code>ledger-source-directory</code></a></td><td valign="top"><a href="#Ledger-Test-Customization-Group">6.2.7 Ledger Test Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dtest_002dbinary"><code>ledger-test-binary</code></a></td><td valign="top"><a href="#Ledger-Test-Customization-Group">6.2.7 Ledger Test Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dtexi_002dnormalization_002dargs"><code>ledger-texi-normalization-args</code></a></td><td valign="top"><a href="#Ledger-Texi-Customization-Group">6.2.8 Ledger Texi Customization Group</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ledger_002dtexi_002dsample_002ddoc_002dpath"><code>ledger-texi-sample-doc-path</code></a></td><td valign="top"><a href="#Ledger-Texi-Customization-Group">6.2.8 Ledger Texi Customization Group</a></td></tr>
+<tr><td colspan="3"> <hr></td></tr>
+</table>
+<table><tr><th valign="top">Jump to: &nbsp; </th><td><a href="#Command-_0026-Variable-Index-1_fn_letter-L" class="summary-letter"><b>L</b></a>
+ &nbsp; 
+</td></tr></table>
+
+<hr size="6">
+<a name="Keystroke-Index"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Command-_0026-Variable-Index" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[ &gt; ]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Command-_0026-Variable-Index" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[ &gt;&gt; ]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Keystroke-Index-1"></a>
+<h1 class="unnumbered">Keystroke Index</h1>
+
+<table><tr><th valign="top">Jump to: &nbsp; </th><td><a href="#Keystroke-Index-1_ky_letter-A" class="summary-letter"><b>A</b></a>
+ &nbsp; 
+<a href="#Keystroke-Index-1_ky_letter-C" class="summary-letter"><b>C</b></a>
+ &nbsp; 
+<a href="#Keystroke-Index-1_ky_letter-D" class="summary-letter"><b>D</b></a>
+ &nbsp; 
+<a href="#Keystroke-Index-1_ky_letter-E" class="summary-letter"><b>E</b></a>
+ &nbsp; 
+<a href="#Keystroke-Index-1_ky_letter-G" class="summary-letter"><b>G</b></a>
+ &nbsp; 
+<a href="#Keystroke-Index-1_ky_letter-M" class="summary-letter"><b>M</b></a>
+ &nbsp; 
+<a href="#Keystroke-Index-1_ky_letter-Q" class="summary-letter"><b>Q</b></a>
+ &nbsp; 
+<a href="#Keystroke-Index-1_ky_letter-R" class="summary-letter"><b>R</b></a>
+ &nbsp; 
+<a href="#Keystroke-Index-1_ky_letter-S" class="summary-letter"><b>S</b></a>
+ &nbsp; 
+<a href="#Keystroke-Index-1_ky_letter-T" class="summary-letter"><b>T</b></a>
+ &nbsp; 
+<a href="#Keystroke-Index-1_ky_letter-Y" class="summary-letter"><b>Y</b></a>
+ &nbsp; 
+</td></tr></table>
+<table border="0" class="index-ky">
+<tr><td></td><th align="left">Index Entry</th><th align="left"> Section</th></tr>
+<tr><td colspan="3"> <hr></td></tr>
+<tr><th><a name="Keystroke-Index-1_ky_letter-A">A</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#index-a"><code>a</code></a></td><td valign="top"><a href="#Adding-and-Deleting-Transactions-during-Reconciliation">3.6 Adding and Deleting Transactions during Reconciliation</a></td></tr>
+<tr><td colspan="3"> <hr></td></tr>
+<tr><th><a name="Keystroke-Index-1_ky_letter-C">C</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#index-C_002dc-C_002da"><code>C-c C-a</code></a></td><td valign="top"><a href="#Quick-Add">1.3.1 Quick Add</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-C_002dc-C_002db"><code>C-c C-b</code></a></td><td valign="top"><a href="#Editing-Amounts">2.3 Editing Amounts</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-C_002dc-C_002dc"><code>C-c C-c</code></a></td><td valign="top"><a href="#Reconciliation">1.3.2 Reconciliation</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-C_002dc-C_002dc-1"><code>C-c C-c</code></a></td><td valign="top"><a href="#Reports">1.3.3 Reports</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-C_002dc-C_002dc-2"><code>C-c C-c</code></a></td><td valign="top"><a href="#Marking-Transactions">2.4 Marking Transactions</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-C_002dc-C_002dc-3"><code>C-c C-c</code></a></td><td valign="top"><a href="#Edit-Transactions-During-Reconciliation">3.4 Edit Transactions during Reconciliation</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-C_002dc-C_002dd"><code>C-c C-d</code></a></td><td valign="top"><a href="#Deleting-Transactions">2.5 Deleting Transactions</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-C_002dc-C_002de"><code>C-c C-e</code></a></td><td valign="top"><a href="#Marking-Transactions">2.4 Marking Transactions</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-C_002dc-C_002df"><code>C-c C-f</code></a></td><td valign="top"><a href="#Narrowing">1.3.4 Narrowing</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-C_002dc-C_002df-1"><code>C-c C-f</code></a></td><td valign="top"><a href="#Narrowing-Transactions">2.7 Narrowing Transactions</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-C_002dc-C_002dk"><code>C-c C-k</code></a></td><td valign="top"><a href="#Copying-Transactions">2.2 Copying Transactions</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-C_002dc-C_002do-C_002de"><code>C-c C-o C-e</code></a></td><td valign="top"><a href="#Adding-and-Editing-Reports">4.2 Adding and Editing Reports</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-C_002dc-C_002do-C_002dr"><code>C-c C-o C-r</code></a></td><td valign="top"><a href="#Reports">1.3.3 Reports</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-C_002dc-C_002do-C_002dr-1"><code>C-c C-o C-r</code></a></td><td valign="top"><a href="#Running-Basic-Reports">4.1 Running Reports</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-C_002dc-C_002dp"><code>C-c C-p</code></a></td><td valign="top"><a href="#Quick-Balance-Display">2.1.1 Quick Balance Display</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-C_002dc-C_002dr"><code>C-c C-r</code></a></td><td valign="top"><a href="#Reconciliation">1.3.2 Reconciliation</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-C_002dc-C_002dr-1"><code>C-c C-r</code></a></td><td valign="top"><a href="#Starting-a-Reconciliation">3.2 Starting a Reconciliation</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-C_002dc-C_002ds"><code>C-c C-s</code></a></td><td valign="top"><a href="#Sorting-Transactions">2.6 Sorting Transactions</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-C_002dc-TAB"><code>C-c TAB</code></a></td><td valign="top"><a href="#Quick-Add">1.3.1 Quick Add</a></td></tr>
+<tr><td colspan="3"> <hr></td></tr>
+<tr><th><a name="Keystroke-Index-1_ky_letter-D">D</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#index-d"><code>d</code></a></td><td valign="top"><a href="#Adding-and-Deleting-Transactions-during-Reconciliation">3.6 Adding and Deleting Transactions during Reconciliation</a></td></tr>
+<tr><td colspan="3"> <hr></td></tr>
+<tr><th><a name="Keystroke-Index-1_ky_letter-E">E</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#index-e"><code>e</code></a></td><td valign="top"><a href="#Adding-and-Editing-Reports">4.2 Adding and Editing Reports</a></td></tr>
+<tr><td colspan="3"> <hr></td></tr>
+<tr><th><a name="Keystroke-Index-1_ky_letter-G">G</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#index-g"><code>g</code></a></td><td valign="top"><a href="#Changing-Reconciliation-Account">3.7 Changing Reconciliation Account</a></td></tr>
+<tr><td colspan="3"> <hr></td></tr>
+<tr><th><a name="Keystroke-Index-1_ky_letter-M">M</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#index-M_002d1-C_002dc-C_002do-C_002dr"><code>M-1 C-c C-o C-r</code></a></td><td valign="top"><a href="#Adding-and-Editing-Reports">4.2 Adding and Editing Reports</a></td></tr>
+<tr><td colspan="3"> <hr></td></tr>
+<tr><th><a name="Keystroke-Index-1_ky_letter-Q">Q</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#index-q"><code>q</code></a></td><td valign="top"><a href="#Reconciliation">1.3.2 Reconciliation</a></td></tr>
+<tr><td colspan="3"> <hr></td></tr>
+<tr><th><a name="Keystroke-Index-1_ky_letter-R">R</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#index-R"><code>R</code></a></td><td valign="top"><a href="#Reversing-Report-Order">4.3 Reversing Report Order</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-RET"><code>RET</code></a></td><td valign="top"><a href="#Edit-Transactions-During-Reconciliation">3.4 Edit Transactions during Reconciliation</a></td></tr>
+<tr><td colspan="3"> <hr></td></tr>
+<tr><th><a name="Keystroke-Index-1_ky_letter-S">S</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#index-S"><code>S</code></a></td><td valign="top"><a href="#Adding-and-Editing-Reports">4.2 Adding and Editing Reports</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-SPC"><code>SPC</code></a></td><td valign="top"><a href="#Reconciliation">1.3.2 Reconciliation</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-SPC-1"><code>SPC</code></a></td><td valign="top"><a href="#Mark-Transactions-Pending">3.3 Mark Transactions Pending</a></td></tr>
+<tr><td colspan="3"> <hr></td></tr>
+<tr><th><a name="Keystroke-Index-1_ky_letter-T">T</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#index-t"><code>t</code></a></td><td valign="top"><a href="#Changing-Reconciliation-Target">3.8 Changing Reconciliation Target</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-TAB"><code>TAB</code></a></td><td valign="top"><a href="#Adding-Transactions">2.1 Adding Transactions</a></td></tr>
+<tr><td colspan="3"> <hr></td></tr>
+<tr><th><a name="Keystroke-Index-1_ky_letter-Y">Y</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#index-y"><code>y</code></a></td><td valign="top"><a href="#Editing-Amounts">2.3 Editing Amounts</a></td></tr>
+<tr><td colspan="3"> <hr></td></tr>
+</table>
+<table><tr><th valign="top">Jump to: &nbsp; </th><td><a href="#Keystroke-Index-1_ky_letter-A" class="summary-letter"><b>A</b></a>
+ &nbsp; 
+<a href="#Keystroke-Index-1_ky_letter-C" class="summary-letter"><b>C</b></a>
+ &nbsp; 
+<a href="#Keystroke-Index-1_ky_letter-D" class="summary-letter"><b>D</b></a>
+ &nbsp; 
+<a href="#Keystroke-Index-1_ky_letter-E" class="summary-letter"><b>E</b></a>
+ &nbsp; 
+<a href="#Keystroke-Index-1_ky_letter-G" class="summary-letter"><b>G</b></a>
+ &nbsp; 
+<a href="#Keystroke-Index-1_ky_letter-M" class="summary-letter"><b>M</b></a>
+ &nbsp; 
+<a href="#Keystroke-Index-1_ky_letter-Q" class="summary-letter"><b>Q</b></a>
+ &nbsp; 
+<a href="#Keystroke-Index-1_ky_letter-R" class="summary-letter"><b>R</b></a>
+ &nbsp; 
+<a href="#Keystroke-Index-1_ky_letter-S" class="summary-letter"><b>S</b></a>
+ &nbsp; 
+<a href="#Keystroke-Index-1_ky_letter-T" class="summary-letter"><b>T</b></a>
+ &nbsp; 
+<a href="#Keystroke-Index-1_ky_letter-Y" class="summary-letter"><b>Y</b></a>
+ &nbsp; 
+</td></tr></table>
+
+<hr size="6">
+<a name="SEC_Contents"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h1>Table of Contents</h1>
+<div class="contents">
+
+<ul class="toc">
+  <li><a name="toc-Introduction-to-Ledger_002dmode-1" href="#Introduction-to-Ledger_002dmode">1. Introduction to Ledger-mode</a>
+  <ul class="toc">
+    <li><a name="toc-Quick-Installation-1" href="#Quick-Installation">1.1 Quick Installation</a></li>
+    <li><a name="toc-Menus-1" href="#Menus">1.2 Menus</a></li>
+    <li><a name="toc-Quick-Demo-1" href="#Quick-Demo">1.3 Quick Demo</a>
+    <ul class="toc">
+      <li><a name="toc-Quick-Add-1" href="#Quick-Add">1.3.1 Quick Add</a></li>
+      <li><a name="toc-Reconciliation-1" href="#Reconciliation">1.3.2 Reconciliation</a></li>
+      <li><a name="toc-Reports-1" href="#Reports">1.3.3 Reports</a></li>
+      <li><a name="toc-Narrowing-1" href="#Narrowing">1.3.4 Narrowing</a></li>
+    </ul>
+</li>
+  </ul></li>
+  <li><a name="toc-The-Ledger-Buffer-1" href="#The-Ledger-Buffer">2. The Ledger Buffer</a>
+  <ul class="toc">
+    <li><a name="toc-Adding-Transactions-1" href="#Adding-Transactions">2.1 Adding Transactions</a>
+    <ul class="toc">
+      <li><a name="toc-Quick-Balance-Display-1" href="#Quick-Balance-Display">2.1.1 Quick Balance Display</a></li>
+    </ul></li>
+    <li><a name="toc-Copying-Transactions-1" href="#Copying-Transactions">2.2 Copying Transactions</a></li>
+    <li><a name="toc-Editing-Amounts-1" href="#Editing-Amounts">2.3 Editing Amounts</a></li>
+    <li><a name="toc-Marking-Transactions-1" href="#Marking-Transactions">2.4 Marking Transactions</a></li>
+    <li><a name="toc-Deleting-Transactions-1" href="#Deleting-Transactions">2.5 Deleting Transactions</a></li>
+    <li><a name="toc-Sorting-Transactions-1" href="#Sorting-Transactions">2.6 Sorting Transactions</a></li>
+    <li><a name="toc-Narrowing-Transactions-1" href="#Narrowing-Transactions">2.7 Narrowing Transactions</a></li>
+  </ul></li>
+  <li><a name="toc-The-Reconcile-Buffer-1" href="#The-Reconcile-Buffer">3. The Reconcile Buffer</a>
+  <ul class="toc">
+    <li><a name="toc-Basics-of-Reconciliation-1" href="#Basics-of-Reconciliation">3.1 Basics of Reconciliation</a></li>
+    <li><a name="toc-Starting-a-Reconciliation-1" href="#Starting-a-Reconciliation">3.2 Starting a Reconciliation</a></li>
+    <li><a name="toc-Mark-Transactions-Pending-1" href="#Mark-Transactions-Pending">3.3 Mark Transactions Pending</a></li>
+    <li><a name="toc-Edit-Transactions-during-Reconciliation" href="#Edit-Transactions-During-Reconciliation">3.4 Edit Transactions during Reconciliation</a></li>
+    <li><a name="toc-Finalize-Reconciliation-1" href="#Finalize-Reconciliation">3.5 Finalize Reconciliation</a></li>
+    <li><a name="toc-Adding-and-Deleting-Transactions-during-Reconciliation-1" href="#Adding-and-Deleting-Transactions-during-Reconciliation">3.6 Adding and Deleting Transactions during Reconciliation</a></li>
+    <li><a name="toc-Changing-Reconciliation-Account-1" href="#Changing-Reconciliation-Account">3.7 Changing Reconciliation Account</a></li>
+    <li><a name="toc-Changing-Reconciliation-Target-1" href="#Changing-Reconciliation-Target">3.8 Changing Reconciliation Target</a></li>
+  </ul></li>
+  <li><a name="toc-The-Report-Buffer-1" href="#The-Report-Buffer">4. The Report Buffer</a>
+  <ul class="toc">
+    <li><a name="toc-Running-Reports" href="#Running-Basic-Reports">4.1 Running Reports</a></li>
+    <li><a name="toc-Adding-and-Editing-Reports-1" href="#Adding-and-Editing-Reports">4.2 Adding and Editing Reports</a>
+    <ul class="toc">
+      <li><a name="toc-Expansion-Formats-1" href="#Expansion-Formats">4.2.1 Expansion Formats</a></li>
+      <li><a name="toc-Make-Report-Transactions-Active-1" href="#Make-Report-Transactions-Active">4.2.2 Make Report Transactions Active</a></li>
+    </ul></li>
+    <li><a name="toc-Reversing-Report-Order-1" href="#Reversing-Report-Order">4.3 Reversing Report Order</a></li>
+  </ul></li>
+  <li><a name="toc-Scheduling-Transactions-1" href="#Scheduling-Transactions">5. Scheduling Transactions</a>
+  <ul class="toc">
+    <li><a name="toc-Specifying-Upcoming-Transactions-1" href="#Specifying-Upcoming-Transactions">5.1 Specifying Upcoming Transactions</a></li>
+  </ul></li>
+  <li><a name="toc-Customizing-Ledger_002dmode-1" href="#Customizing-Ledger_002dmode">6. Customizing Ledger-mode</a>
+  <ul class="toc">
+    <li><a name="toc-Ledger_002dmode-Customization-1" href="#Ledger_002dmode-Customization">6.1 Ledger-mode Customization</a></li>
+    <li><a name="toc-Customization-Variables-1" href="#Customization-Variables">6.2 Customization Variables</a>
+    <ul class="toc">
+      <li><a name="toc-Ledger-Customization-Group-1" href="#Ledger-Customization-Group">6.2.1 Ledger Customization Group</a></li>
+      <li><a name="toc-Ledger-Reconcile-Customization-Group-1" href="#Ledger-Reconcile-Customization-Group">6.2.2 Ledger Reconcile Customization Group</a></li>
+      <li><a name="toc-Ledger-Report-Customization-Group-1" href="#Ledger-Report-Customization-Group">6.2.3 Ledger Report Customization Group</a></li>
+      <li><a name="toc-Ledger-Faces-Customization-Group-1" href="#Ledger-Faces-Customization-Group">6.2.4 Ledger Faces Customization Group</a></li>
+      <li><a name="toc-Ledger-Post-Customization-Group-1" href="#Ledger-Post-Customization-Group">6.2.5 Ledger Post Customization Group</a></li>
+      <li><a name="toc-Ledger-Exec-Customization-Group-1" href="#Ledger-Exec-Customization-Group">6.2.6 Ledger Exec Customization Group</a></li>
+      <li><a name="toc-Ledger-Test-Customization-Group-1" href="#Ledger-Test-Customization-Group">6.2.7 Ledger Test Customization Group</a></li>
+      <li><a name="toc-Ledger-Texi-Customization-Group-1" href="#Ledger-Texi-Customization-Group">6.2.8 Ledger Texi Customization Group</a></li>
+    </ul>
+</li>
+  </ul></li>
+  <li><a name="toc-Generating-Ledger-Regression-Tests-1" href="#Generating-Ledger-Regression-Tests">7. Generating Ledger Regression Tests</a></li>
+  <li><a name="toc-Embedding-Example-results-in-Ledger-Documentation-1" href="#Embedding-Example-results-in-Ledger-Documentation">8. Embedding Example results in Ledger Documentation</a></li>
+  <li><a name="toc-Hacking-Ledger_002dmode-1" href="#Hacking-Ledger_002dmode">9. Hacking Ledger-mode</a></li>
+  <li><a name="toc-Concept-Index-1" href="#Concept-Index">Concept Index</a></li>
+  <li><a name="toc-Command-_0026-Variable-Index-1" href="#Command-_0026-Variable-Index">Command &amp; Variable Index</a></li>
+  <li><a name="toc-Keystroke-Index-1" href="#Keystroke-Index">Keystroke Index</a></li>
+</ul>
+</div>
+<hr size="1">
+<a name="SEC_About"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h1>About This Document</h1>
+<p>
+  This document was generated by <em>root</em> on <em>December 25, 2014</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
+</p>
+<p>
+  The buttons in the navigation panels have the following meaning:
+</p>
+<table border="1">
+  <tr>
+    <th> Button </th>
+    <th> Name </th>
+    <th> Go to </th>
+    <th> From 1.2.3 go to</th>
+  </tr>
+  <tr>
+    <td align="center"> [ &lt; ] </td>
+    <td align="center">Back</td>
+    <td>Previous section in reading order</td>
+    <td>1.2.2</td>
+  </tr>
+  <tr>
+    <td align="center"> [ &gt; ] </td>
+    <td align="center">Forward</td>
+    <td>Next section in reading order</td>
+    <td>1.2.4</td>
+  </tr>
+  <tr>
+    <td align="center"> [ &lt;&lt; ] </td>
+    <td align="center">FastBack</td>
+    <td>Beginning of this chapter or previous chapter</td>
+    <td>1</td>
+  </tr>
+  <tr>
+    <td align="center"> [ Up ] </td>
+    <td align="center">Up</td>
+    <td>Up section</td>
+    <td>1.2</td>
+  </tr>
+  <tr>
+    <td align="center"> [ &gt;&gt; ] </td>
+    <td align="center">FastForward</td>
+    <td>Next chapter</td>
+    <td>2</td>
+  </tr>
+  <tr>
+    <td align="center"> [Top] </td>
+    <td align="center">Top</td>
+    <td>Cover (top) of document</td>
+    <td> &nbsp; </td>
+  </tr>
+  <tr>
+    <td align="center"> [Contents] </td>
+    <td align="center">Contents</td>
+    <td>Table of contents</td>
+    <td> &nbsp; </td>
+  </tr>
+  <tr>
+    <td align="center"> [Index] </td>
+    <td align="center">Index</td>
+    <td>Index</td>
+    <td> &nbsp; </td>
+  </tr>
+  <tr>
+    <td align="center"> [ ? ] </td>
+    <td align="center">About</td>
+    <td>About (help)</td>
+    <td> &nbsp; </td>
+  </tr>
+</table>
+
+<p>
+  where the <strong> Example </strong> assumes that the current position is at <strong> Subsubsection One-Two-Three </strong> of a document of the following structure:
+</p>
+
+<ul>
+  <li> 1. Section One
+    <ul>
+      <li>1.1 Subsection One-One
+        <ul>
+          <li>...</li>
+        </ul>
+      </li>
+      <li>1.2 Subsection One-Two
+        <ul>
+          <li>1.2.1 Subsubsection One-Two-One</li>
+          <li>1.2.2 Subsubsection One-Two-Two</li>
+          <li>1.2.3 Subsubsection One-Two-Three &nbsp; &nbsp;
+            <strong>&lt;== Current Position </strong></li>
+          <li>1.2.4 Subsubsection One-Two-Four</li>
+        </ul>
+      </li>
+      <li>1.3 Subsection One-Three
+        <ul>
+          <li>...</li>
+        </ul>
+      </li>
+      <li>1.4 Subsection One-Four</li>
+    </ul>
+  </li>
+</ul>
+
+<hr size="1">
+<p>
+ <font size="-1">
+  This document was generated by <em>root</em> on <em>December 25, 2014</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>
